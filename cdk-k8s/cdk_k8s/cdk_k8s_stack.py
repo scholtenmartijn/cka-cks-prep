@@ -25,7 +25,11 @@ class CdkK8SStack(Stack):
 
         key_name = "cka-cks-prep"
 
-        my_security_group = ec2.SecurityGroup(self, "SecurityGroup", vpc=vpc)
+        my_security_group = ec2.SecurityGroup(self,
+         "SecurityGroup",
+          vpc=vpc,
+          allow_all_outbound=True)
+   
         autoscaling.AutoScalingGroup(self, "MasterASG",
             vpc=vpc,
             vpc_subnets=ec2.SubnetSelection(
@@ -34,7 +38,7 @@ class CdkK8SStack(Stack):
             instance_type=ec2.InstanceType.of(ec2.InstanceClass.BURSTABLE2, ec2.InstanceSize.LARGE),
             machine_image=linux,
             security_group=my_security_group,
-            associate_public_ip_address=True
+            associate_public_ip_address=True,
             key_name=key_name
         )
 
@@ -46,6 +50,6 @@ class CdkK8SStack(Stack):
             instance_type=ec2.InstanceType.of(ec2.InstanceClass.BURSTABLE2, ec2.InstanceSize.LARGE),
             machine_image=linux,
             security_group=my_security_group,
-            associate_public_ip_address=True
+            associate_public_ip_address=True,
             key_name=key_name
         )
