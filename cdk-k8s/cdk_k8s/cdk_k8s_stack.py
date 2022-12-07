@@ -23,6 +23,8 @@ class CdkK8SStack(Stack):
            "eu-west-1": "ami-096800910c1b781ba"
         })
 
+        key_name = "cka-cks-prep"
+
         my_security_group = ec2.SecurityGroup(self, "SecurityGroup", vpc=vpc)
         autoscaling.AutoScalingGroup(self, "MasterASG",
             vpc=vpc,
@@ -33,6 +35,7 @@ class CdkK8SStack(Stack):
             machine_image=linux,
             security_group=my_security_group,
             associate_public_ip_address=True
+            key_name=key_name
         )
 
         autoscaling.AutoScalingGroup(self, "WorkerASG",
@@ -44,4 +47,5 @@ class CdkK8SStack(Stack):
             machine_image=linux,
             security_group=my_security_group,
             associate_public_ip_address=True
+            key_name=key_name
         )
