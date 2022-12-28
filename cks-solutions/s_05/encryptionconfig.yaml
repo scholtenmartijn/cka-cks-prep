@@ -1,0 +1,14 @@
+apiVersion: apiserver.config.k8s.io/v1
+kind: EncryptionConfiguration
+name: newsetup
+resources:
+  - resources:
+    - secrets
+    providers:
+    - aescbc:
+        keys:
+        - name: firstkey
+          secret: Ezqai0SIGChGOwf0VdbkFtYPUM2EYf1TAAQbDrfizJQ=
+    - identity: {}
+
+

@@ -1,0 +1,41 @@
+#!/usr/bin/expect -f
+# character to toggle this mode off and on.
+
+# *
+# * The code herein is: Copyright the Linux Foundation, 2020 GPL v2
+# *
+# * This Copyright is retained for the purpose of protecting free
+# * redistribution of source.
+# *
+# *     URL:    https://training.linuxfoundation.org
+# *     email:  training@linuxfoundation.org
+# *
+
+
+
+set timeout -1
+
+set cp [lindex $argv 0]
+
+set worker [lindex $argv 1]
+
+spawn ./k8sClusterSetup.sh ~/LF-Class.pem $cp $worker
+
+expect *.
+
+expect -exact "yes/no" {send -- "yes\r"}
+
+expect *.
+expect -exact "file sshd_config" {send -- "2\r"}
+
+
+expect *.
+expect -exact "yes/no" {send "yes\r"}
+
+expect *.
+expect -exact "file sshd_config" {send "2\r"}
+
+expect *.
+ 
+
+expect eof

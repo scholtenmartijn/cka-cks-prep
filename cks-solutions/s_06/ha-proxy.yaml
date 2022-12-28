@@ -1,0 +1,16 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: tester
+spec:  
+  rules:
+  - host: nginx.10.128.0.57.nip.io   #<-- Edit this to by YOUR IP
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/"
+        backend:
+          service:
+            name: tester
+            port:
+              number: 80

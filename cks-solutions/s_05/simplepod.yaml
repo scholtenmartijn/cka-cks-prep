@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: simple-pod
+  namespace: prod-b
+spec:
+  containers:
+  - name: simple
+    image: nginx
+

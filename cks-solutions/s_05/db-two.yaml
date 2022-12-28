@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: db-two
+  name: db-two
+  namespace: default
+spec:
+  selector:
+    matchLabels:
+      app: db-two
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: db-two
+    spec:
+      containers:
+      - image: mariadb
+        name: mariadb
+        ports:
+          - containerPort: 3306
+            name: db-port
+        env:
+          - name: MYSQL_ROOT_PASSWORD
+            value: LFtrain
+

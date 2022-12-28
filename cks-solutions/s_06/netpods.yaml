@@ -1,0 +1,110 @@
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: devapp
+  namespace: dev-ns
+  labels:
+    app: devapp
+    user: bob
+spec:
+  containers:
+  - name: ubuntu
+    image: ubuntu:latest
+    command: ["/bin/sleep", "3650d"]
+    imagePullPolicy: IfNotPresent
+  restartPolicy: Always
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: frontend
+  namespace: prod-a
+  labels:
+    app: front
+    user: tim
+spec:
+  containers:
+  - name: frontend
+    image: nginx
+    imagePullPolicy: IfNotPresent
+  restartPolicy: Always
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: backend
+  namespace: prod-b
+  labels:
+    app: back
+    user: tim
+spec:
+  containers:
+  - name: backend
+    image: nginx
+    imagePullPolicy: IfNotPresent
+  restartPolicy: Always
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: devapp
+    user: bob
+  name: devapp
+  namespace: dev-ns
+spec:
+  ports:
+  - port: 80
+    name: web
+    protocol: TCP
+    targetPort: 80
+  - port: 22
+    name: ssh
+    protocol: TCP
+    targetPort: 22
+  selector:
+    app: devapp
+    user: bob
+  sessionAffinity: None
+  type: ClusterIP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: front
+    user: tim
+  name: frontend
+  namespace: prod-a
+spec:
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 80
+  selector:
+    app: front
+    user: tim
+  sessionAffinity: None
+  type: NodePort
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: back
+    user: tim
+  name: backend
+  namespace: prod-b
+spec:
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 80
+  selector:
+    app: back
+    user: tim
+  sessionAffinity: None
+  type: ClusterIP
+
+
